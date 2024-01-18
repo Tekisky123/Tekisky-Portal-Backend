@@ -5,6 +5,7 @@ import { dbConnect } from "./db/dbConnect.js"
 import studentRouter from "./routers/studentRouter.js"
 import userRouter from "./routers/userRouter.js"
 import cors from 'cors'
+import enquiryRouter from "./routers/enquiryRouter.js"
 
 const app=express()
 dottenv.config()
@@ -19,6 +20,7 @@ const port =process.env.PORT
 
  app.use("/student",studentRouter)
  app.use("/user",userRouter)
+ app.use("/enquiry",enquiryRouter)
  
 
 app.listen(port,()=>{

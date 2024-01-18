@@ -2,7 +2,9 @@ import studentModel from "../models/studentModel.js"
 import status from 'http-status'
 
 
+
 const createStudent = async (req, res) => {
+   
     console.log(req.body)
     const newStudent=new studentModel(req.body);
     
@@ -19,24 +21,26 @@ const createStudent = async (req, res) => {
 
 
 const getStudent=async(req,res)=>{
+    // res.sendFile(path.join(process.cwd(),'views','index.html'))
     try {
         const result = await studentModel.find();
 
         if (result.length === 0) {
             return res.status(404).json({
                 success: false,
-                message: 'No students found!',
+                message: 'No Students Found?!',
             });
         }
 
         return res.status(200).json({
+            
             success: true,
             result,
         });
     } catch (error) {
         return res.status(400).json({
             success: false,
-            message: "Error while displaying students",
+            message: "Error While Displaying Students?!",
             error: error.message,
         });
     }
@@ -59,12 +63,12 @@ const deleteStudent=async(req,res)=>{
     if(!data){
         return res.status(status.NOT_FOUND).json({
             success:false,
-            message:"invalid id ..!"
+            message:"Invalid Id ?!"
         })
     }
     res.json({
         success:true,
-        message:"student deleted successfully...!"
+        message:"Student Deleted Successfully...!"
     })
 }
 
@@ -73,7 +77,8 @@ const updateStudent=async(req,res)=>{
         const _id = req.params.id;
         console.log(_id);
 
-        const student = await studentModel.findByIdAndUpdate(_id, req.body, { new: true });   //req.body typically contains the updated information sent in the request body
+        const student = await studentModel.findByIdAndUpdate(_id, req.body, { new: true });  
+         //req.body typically contains the updated information sent in the request body...!
         //This option specifies that the method should return the modified document rather than the original one.
         // When new is set to true, 
         //the student variable will be assigned the updated document after the update operation is completed.
@@ -81,19 +86,19 @@ const updateStudent=async(req,res)=>{
         if (!student) {
             return res.status(400).json({
                 success: false,
-                message: "Invalid id..!",
+                message: "Invalid Id?!",
             });
         }
 
         return res.status(200).json({
             success: true,
-            message: "Student record updated successfully...!",
+            message: "Student Record Updated Successfully...!",
             student,
         });
     } catch (error) {
         return res.status(400).json({
             success: false,
-            message: "Error while updating record..!",
+            message: "Error While Updating Record?!",
             error: error.message,
         });
     }

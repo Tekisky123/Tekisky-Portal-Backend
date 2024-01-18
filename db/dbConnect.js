@@ -20,11 +20,12 @@ let dbConnect = async (dburl) => {
             console.log('connected to db ');
     
         } catch (error) {
-            console.log(error);
+            console.log(error.message);
+            
         }
     }
     
-    
+     
     export { dbConnect } 
 
 

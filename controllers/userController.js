@@ -1,12 +1,14 @@
 import userModel from "../models/userModel.js";
+import HttpStatus from 'http-status-codes';  //need to import the status object from a library like http-status-codes or define it yourself
 import { registerUserService ,getUserService} from "../services/userService.js";
 import { getToken,checkPassword,verifyToken ,passwordHash } from "../authentication/userAuth.js";
 
-let registerUser=async(req,res)=>{
-    let{empId,name,mobileNumber,email,password,address,education,date}=req.body;
+let createUser=async(req,res)=>{
+    let{userName,mobileNumber,email,password,userType}=req.body;  
     try {
-       let hashpassword=await passwordHash(password)
-       let status=await registerUserService(empId,name,mobileNumber,email,hashpassword,address,education,date) 
+    let hashpassword=await passwordHash(password)
+    
+       let status=await registerUserService(userName,mobileNumber,email,hashpassword,userType) 
        if (status=='success'){
         let token=await getToken(email)
         res.status(200).send('success')
@@ -15,30 +17,31 @@ let registerUser=async(req,res)=>{
        }
     } catch (error) {
         console.log(error)
-        console.log('error in controller');
+        console.log('Error In Controller');
     }
 }
 
 let login=async(req,res)=>{
-    let {empId,password}=req.body;
+    let {mobileNumber,password}=req.body;
     try {
-        let user=await getUserService(empId)
-        let status=await checkPassword(password,user.password)
+        let user=await getUserService(mobileNumber)
+       let status=await checkPassword(password,user.password)
         if(status){
-            let token=getToken(empId)
+         let token=getToken(mobileNumber)
             res.status(200).send({status:"success",token:token,data:user});
         }else{
-            res.status(401).send("invalid login");
+            res.status(401).send("Invalid Login??");
         }
     } catch (error) {
         console.log(error);
     }
 };
 
-let updateUser=async(req,res)=>{
+let updateUsers=async(req,res)=>{
+    const _id=req.params.id;
    try {
-    let {empId,name,mobileNumber,email,password,address,education,date}=req.body;
-    const data=await userModel.findOneAndUpdate({empId},{empId,name,mobileNumber,email,password,address,education,date})
+    let {userName,mobileNumber,email,password,userType}=req.body;
+    const data=await userModel.findOneAndUpdate({_id},{userName,mobileNumber,email,password,userType})
 
     return res.status(201).json({
         success:true,
@@ -47,7 +50,7 @@ let updateUser=async(req,res)=>{
    } catch (error) {
       return res.status(404).json({
         success:false,
-        message:"Error Occured During Update User...!",
+        message:"Error Occured During Update User?!",
         error:error.message
       })
    }
@@ -68,7 +71,7 @@ let getUser=async(req,res)=>{
     } catch (error) {
         return res.status(status.BAD_REQUEST).json({
             success:false,
-            message:"Error While Displaying Users...!",
+            message:"Error While Displaying Users?!",
             error:error.message
         })
     }
@@ -79,15 +82,15 @@ let deleteUser=async(req,res)=>{
     const _id=req.params.id;
     const data=await userModel.findByIdAndDelete(_id)
     if(!data){
-        return res.status(status.NOT_FOUND).json({
+        return res.status(HttpStatus.NOT_FOUND).json({
             success:false,
             message:"Invalid Id..."
         })
     }
     res.json({
         success:true,
-        message:"User Deleted Successfully.."
+        message:"User Deleted Successfully...!"
     })
 }
 
-export {registerUser,login,updateUser,getUser,deleteUser}
+export {createUser,login,updateUsers,getUser,deleteUser}

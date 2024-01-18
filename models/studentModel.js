@@ -56,7 +56,7 @@ const studentSchema = new mongoose.Schema({
   courseDetails: { type: courseDetailsSchema},
   personalDetails:{type:personalDetailSchema},
   contactDetails: { type: contactDetailSchema },
-  educationalDetails: { type: [educationalSchema] },
+  educationalDetails: { type: [educationalSchema] },                                   
 });
 
 

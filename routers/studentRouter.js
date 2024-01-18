@@ -6,6 +6,7 @@ studentRouter.post('/create',createStudent)
 studentRouter.get('/getstudent',getStudent)
 studentRouter.put('/:id',updateStudent)
 studentRouter.get('/:id',deleteStudent)
+//studentRouter.get('/getstudent/:id',getStudent)
 
 
 

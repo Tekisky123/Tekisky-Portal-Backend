@@ -10,13 +10,13 @@ let verifyToken=(token)=>{
     } catch (error) {
         return "invalid token"
     }
-}
+};
 
 let getToken=(email)=>{
     let secretKEY=process.env.SECRETKEY;
     let token=jwt.sign({email:email},secretKEY,{expiresIn:"120h"})
     return token;
-}
+};
 
 let passwordHash=async(userPassword)=>{
     try {
@@ -25,7 +25,7 @@ let passwordHash=async(userPassword)=>{
     } catch (error) {
         console.log('error while hashing password');
     }
-}
+};
 
 let checkPassword=async(plainPassword,dbPass)=>{
     try {
@@ -34,6 +34,6 @@ let checkPassword=async(plainPassword,dbPass)=>{
     } catch (error) {
         console.log(error)
     }
-};
+}; 
 
 export {passwordHash,checkPassword,getToken,verifyToken}
