@@ -6,6 +6,7 @@ import studentRouter from "./routers/studentRouter.js"
 import userRouter from "./routers/userRouter.js"
 import cors from 'cors'
 import enquiryRouter from "./routers/enquiryRouter.js"
+import morgan from "morgan"
 
 const app=express()
 dottenv.config()
@@ -20,6 +21,8 @@ dbConnect(dburl)
     optionsSuccessStatus: 200, // Some legacy browsers choke on 204
  };
 app.use(cors(corsOptions))
+app.use(morgan('tiny'))
+
 app.use(bodyParser.urlencoded({extended:false}))
 app.use(express.json())
 const port =process.env.PORT
