@@ -12,7 +12,14 @@ dottenv.config()
 let dburl=process.env.DBURL
 let dbname=process.env.DBNAME
 dbConnect(dburl)
-app.use(cors())
+//app.use(cors())
+ const corsOptions = {
+    origin: '*', // Replace with the origin(s) you want to allow
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    credentials: true,
+    optionsSuccessStatus: 200, // Some legacy browsers choke on 204
+ };
+app.use(cors(corsOptions))
 app.use(bodyParser.urlencoded({extended:false}))
 app.use(express.json())
 const port =process.env.PORT
