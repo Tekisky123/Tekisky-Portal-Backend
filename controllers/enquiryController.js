@@ -77,5 +77,30 @@ let deleteRecord=async(req,res)=>{
     })
 }
 
+const getOneRecord=async(req,res)=>{
+    try {
+        const _id=req.params.id
+        const enquiry= await enquiryModel.findById(_id)
+        if(!enquiry){
+            return res.status(404).json({
+                success: false,
+                message: 'No enquiries Found!',
+            });
+        }
+        return res.status(200).json({
+            
+            success: true,
+            enquiry,
+        });
+    } catch (error) {
+        return res.status(400).json({
+            success: false,
+            message: "Error While Displaying!",
+            error: error.message,
+            
+        });
+    }
+}
 
-export {createRecord,updaterecord,getAllRecords,deleteRecord}
+
+export {createRecord,updaterecord,getAllRecords,deleteRecord,getOneRecord}

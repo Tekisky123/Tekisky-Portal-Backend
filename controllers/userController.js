@@ -28,6 +28,7 @@ let login=async(req,res)=>{
        let status=await checkPassword(password,user.password)
         if(status){
          let token=getToken(mobileNumber)
+         console.log(token,"sana")
             res.status(200).send({status:"success",token:token,data:user});
         }else{
             res.status(401).send("Invalid Login??");
@@ -93,4 +94,28 @@ let deleteUser=async(req,res)=>{
     })
 }
 
-export {createUser,login,updateUsers,getUser,deleteUser}
+const getOneUser=async(req,res)=>{
+  try {
+    const _id=req.params.id
+    const user=await userModel.findById(_id)
+    if(!user){
+        return res.status(404).json({
+            success: false,
+            message: 'No user Found!',
+        });
+    }
+    return res.status(200).json({
+            
+        success: true,
+        user,
+    });
+  } catch (error) {
+    return res.status(400).json({
+        success: false,
+        message: "Error While Displaying user!",
+        error: error.message,
+    });
+  }
+}
+
+export {createUser,login,updateUsers,getUser,deleteUser,getOneUser}

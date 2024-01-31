@@ -104,4 +104,31 @@ const updateStudent=async(req,res)=>{
     }
 }
 
-export {createStudent,getStudent,deleteStudent,updateStudent}
+const getOneStudent=async(req,res)=>{
+    try {
+         const _id = req.params.id;
+        const result = await studentModel.findById(_id);
+
+       // if (result.length === 0) {
+        if(!result){
+            return res.status(404).json({
+                success: false,
+                message: 'No Student Found?!',
+            });
+        }
+
+        return res.status(200).json({
+            
+            success: true,
+            result,
+        });
+    } catch (error) {
+        return res.status(400).json({
+            success: false,
+            message: "Error While Displaying Student?!",
+            error: error.message,
+        });
+    }
+}
+
+export {createStudent,getStudent,deleteStudent,updateStudent,getOneStudent}

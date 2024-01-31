@@ -14,6 +14,7 @@ let verifyToken=(token)=>{
 
 let getToken=(email)=>{
     let secretKEY=process.env.SECRETKEY;
+    console.log(secretKEY,'huhwuihw')
     let token=jwt.sign({email:email},secretKEY,{expiresIn:"120h"})
     return token;
 };
